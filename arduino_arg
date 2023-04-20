@@ -1,0 +1,55 @@
+// Bibliothèques
+#include <LiquidCrystal.h>
+
+// Constantes
+const int trigPin = 9;
+const int echoPin = 10;
+const int lcdPin = 12;
+
+// Variables
+long duration;
+int distance;
+LiquidCrystal lcd(lcdPin, 11, 5, 4, 3, 2);
+
+void setup() {
+  // Initialisation de l'écran LCD
+  lcd.begin(16, 2);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Initialisation...");
+  
+  // Configuration des broches pour le capteur de distance
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+
+  // Réglage du contraste de l'écran LCD
+  analogWrite(6, 150);
+
+  Serial.begin(9600);
+
+  delay(2000);
+}
+
+void loop() {
+  long duration, cm;
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  cm = duration / 58;
+  Serial.println(cm);
+ 
+  
+  if (cm >= 4 && cm <= 20) {
+lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("S3CR37S");
+  } else {
+   lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("Chargement");
+    }
+    delay(500);
+  }
